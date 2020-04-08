@@ -1,0 +1,16 @@
+{
+  "name": "hipnaba/indigo-orm",
+  "description": "Doctrine ORM integration for Laminas.",
+
+  "require": {
+    "php": "^7.4",
+    "laminas/laminas-servicemanager": "^3.4",
+    "doctrine/orm": "^2.7"
+  },
+
+  "autoload": {
+    "psr-4": {
+      "Indigo\\ORM\\": "src"
+    }
+  }
+}
