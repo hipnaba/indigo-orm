@@ -1,6 +1,7 @@
 {
   "name": "hipnaba/indigo-orm",
   "description": "Doctrine ORM integration for Laminas.",
+  "license": "WTFPL",
 
   "require": {
     "php": "^7.4",
