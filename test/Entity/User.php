@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @author Danijel Fabijan <hipnaba@gmail.com>
  * @link https://github.com/hipnaba/indigo-orm
  *
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="\IndigoTest\ORM\Repository\UserRepository")
  * @ORM\Table()
  */
 class User

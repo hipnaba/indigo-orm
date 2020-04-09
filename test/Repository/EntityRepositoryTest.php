@@ -64,4 +64,12 @@ final class EntityRepositoryTest extends OrmTestCase
         $repo = $this->getRepository(User::class);
         $this->assertFalse($repo->exists(1));
     }
+
+    public function testContainerCanCreateTheRepository()
+    {
+        $container = $this->getContainer();
+
+        $this->assertTrue($container->has(UserRepository::class));
+        $this->assertInstanceOf(UserRepository::class, $container->get(UserRepository::class));
+    }
 }
