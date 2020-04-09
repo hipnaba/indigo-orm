@@ -16,16 +16,21 @@ class EntityRepository extends BaseEntityRepository implements EntityRepositoryI
 {
     /**
      * @inheritDoc
-     * @throws MappingException
      */
     public function exists($id): bool
     {
         $qb = $this->createQueryBuilder('e');
         $metaData = $this->getClassMetadata();
 
+        try {
+            $singleIdentifierFieldName = $metaData->getSingleIdentifierFieldName();
+        } catch (MappingException $e) {
+            $singleIdentifierFieldName = 'id';
+        }
+
         $qb->select('1')
             ->where(
-                $qb->expr()->eq('e.' . $metaData->getSingleIdentifierFieldName(), ':id')
+                $qb->expr()->eq('e.' . $singleIdentifierFieldName, ':id')
             );
 
         $query = $qb->getQuery();
