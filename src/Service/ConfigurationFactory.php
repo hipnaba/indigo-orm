@@ -1,8 +1,11 @@
 <?php
 namespace Indigo\ORM\Service;
 
+use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Tools\Setup;
+use Indigo\ORM\Repository\EntityRepository;
 use Interop\Container\ContainerInterface;
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
 /**
@@ -25,12 +28,22 @@ final class ConfigurationFactory implements FactoryInterface
             $config['cache'] = $container->get($config['cache']);
         }
 
-        return Setup::createAnnotationMetadataConfiguration(
-            $config['entity_paths'] ?? [],
-            $config['dev_mode'] ?? false,
-            $config['proxy_dir'] ?? null,
-            $config['cache'] ?? null,
-            false
-        );
+        try {
+            $configuration = Setup::createAnnotationMetadataConfiguration(
+                $config['entity_paths'] ?? [],
+                $config['dev_mode'] ?? false,
+                $config['proxy_dir'] ?? null,
+                $config['cache'] ?? null,
+                false
+            );
+
+            $configuration->setDefaultRepositoryClassName(EntityRepository::class);
+
+            return $configuration;
+        } catch (ORMException $e) {
+            throw new ServiceNotCreatedException(sprintf(
+                "%s: Could not create the entity manager configuraton.", __METHOD__
+            ));
+        }
     }
 }
