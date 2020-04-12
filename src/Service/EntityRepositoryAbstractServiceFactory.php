@@ -23,7 +23,7 @@ final class EntityRepositoryAbstractServiceFactory implements AbstractFactoryInt
      */
     public function canCreate(ContainerInterface $container, $requestedName)
     {
-        return in_array(
+        return class_exists($requestedName) && in_array(
             ObjectRepository::class,
             class_implements($requestedName)
         );
